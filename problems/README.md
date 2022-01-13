@@ -10,13 +10,13 @@ The challenge, however, is to find a global maximum within a region.
 
 #### Tasks
 1. **(NEW)** Write a genetic algorithm to find a global maximum.
-  - Identify what "organisms" are in this context.
-  - Determine what data structure will be useful for encoding this organism's "genome".
-  - Pick a method for selecting the surviving population that will make it to the next round of evaluation.
-  - Decide how reproduction will occur, using mutations and crossover (optional).
+    - Identify what "organisms" are in this context.
+    - Determine what data structure will be useful for encoding this organism's "genome".
+    - Pick a method for selecting the surviving population that will make it to the next round of evaluation.
+    - Decide how reproduction will occur, using mutations and crossover (optional).
 
 #### Recommended Reading
-*Biologically Inspired Algorithms: An Introduction*
+*Biologically Inspired Optimization Methods: An Introduction* (in the Dropbox)
  - Chapter 3, pgs. 40-59 (can skip the 'Biological Background' if somewhat familiar, stop at 'Properties of Genetic algorithms')
 
 
