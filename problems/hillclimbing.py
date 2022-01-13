@@ -6,7 +6,7 @@
 #   import fivepeaks
 # to import it!
 #
-# Goal: find the maximum or minimum!
+# Goal: find the maximum!
 
 import numpy as np
 

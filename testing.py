@@ -5,7 +5,6 @@ sys.path.append('visualization')
 from hillclimbing import fivepeaks, ravine, rosenbrock
 import plot
 
-
 # fig = plot.heatmap(ravine, -3, 3, -3, 3)
 # plt.show()
 
