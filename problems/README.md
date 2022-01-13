@@ -6,10 +6,10 @@
 
 ## Hill Climbing Challenge
 In `hillclimbing.py` there are a couple functions that have various local maxima.
-The challenge however, is to find a global maximum within a region.
+The challenge, however, is to find a global maximum within a region.
 
 #### Tasks
-1. (**NEW**) Write a genetic algorithm to find a global maximum.
+1. **(NEW)** Write a genetic algorithm to find a global maximum.
   - Identify what "organisms" are in this context.
   - Determine what data structure will be useful for encoding this organism's "genome".
   - Pick a method for selecting the surviving population that will make it to the next round of evaluation.
@@ -24,4 +24,4 @@ The challenge however, is to find a global maximum within a region.
 
 ## Predator Prey Challenge
 
-(**COMING SOON**)
+**(COMING SOON)**
