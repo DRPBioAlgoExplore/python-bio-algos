@@ -10,43 +10,33 @@ class Point:
         self.l_max = l_max
         self.g_max = g_max
 
-    def move(self):
-        r = random.random()
+    def move(self): 
         
-        l = sub(self.l_max, self.loc)
-        g = sub(self.g_max, self.loc)
+        
+        l = self.l_max - self.loc
+        g = self.g_max - self.loc
         v = self.loc
 
         for i in range(2):
-            l[i] = 2 * r * l[i]
+            l[i] = 2 * np.random.rand() * l[i]
             
-            g[i] = (2 - 2 * r) * g[i]
+            g[i] = 2 * np.random.rand() * g[i]
             
             v[i] = v[i] + l[i] + g[i]
-        
+            
         v = Check_Constraints(v)
-        
+            
         return v
 
 
-
 def fun(p):
-    return p[0] + 2 * p[1]
+    x = p[0]
+    y = p[1]
+    return (x*y+.5*(1-x)*y)*np.sin(3*np.pi*x)*np.sin(3*np.pi*y)
 
-def sub(a, b):
-    for i in range(2):
-        
-        a[i] = a[i] - b[i]
-    return a
 
 def Generate_init(n):
-    list_of_points = []
-    for i in range(n):
-        list_of_co = []
-        for j in range(2):
-            list_of_co.append(random.random())
-
-        list_of_points.append(list_of_co)
+    list_of_points = np.random.rand(n,2)
 
     return list_of_points
 
@@ -74,20 +64,18 @@ def Find_Max(current_place):
 
     while i > 0:
         for j in range(3):
-            c[i - 1] = c[i - 1] - (j-1) / 2000000
+            c[i - 1] = c[i - 1] + (j-1) / 1e-06
             
             c = Check_Constraints(c)
             
             if fun(c) > max_val:
                     max_val = fun(c)
-                    max_place = c
-                    
-            else:
-                c[i - 1] = c[i - 1] + (j-1) / 200000000
+                    max_place = c    
 
         i -= 1
         
     return (max_val,  max_place)
+
 
 def Check_Constraints(p):
     i = 0
@@ -109,6 +97,7 @@ def main():
 
         for p in points:
             l = Find_Max(p)
+            
             p1 = Point(p, l[1], g[1])
             
             p = p1.move()
@@ -122,24 +111,4 @@ def main():
 
     return k
 
-
-
-points = Generate_init(3)
-i = 0
-g = Find_Global_Max(points)
-print(g)
-for i in range(10):
-
-    for p in points:
-        l = Find_Max(p)
-        print(l)
-        p1 = Point(p, l[1], g[1])
-        
-        p = p1.move()
-            
-        g = Find_Global_Max(points)
-            
-
-    i = i + 1
-
-k = print("The Global maximum is " + str(g[0]))
+main()
