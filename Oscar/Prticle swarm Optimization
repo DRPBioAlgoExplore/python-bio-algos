@@ -1,0 +1,127 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+import random
+
+
+def f(x,y):
+    "Objective function"
+    return (x*y+.5*(1-x)*y)*np.sin(3*np.pi*x)*np.sin(3*np.pi*y)
+
+x_min = 0
+y_min = 0
+
+x_max = 1
+y_max = 1
+# Compute and plot the function in 2D within [0,1]x[0,1]
+x_i, y_i = np.array(np.meshgrid(np.linspace(x_min,x_max,20), np.linspace(y_min,y_max,20)))
+z = f(x_i,y_i)
+
+# Hyper-parameter of the algorithm
+c1 = c2 = 0.1
+
+ 
+# Create particles
+n_particles = 20
+np.random.seed(100)
+
+x = np.random.rand(n_particles) * (x_max - x_min)
+y = np.random.rand(n_particles) * (y_max - y_min)
+X = np.array([x,y])
+
+V_x = np.random.randn(n_particles)*0.1
+V_y = np.random.randn(n_particles)*0.1
+
+i = 0
+
+# Initialize data
+
+pbest_x = x 
+pbest_y = y
+pbest = np.array([pbest_x,pbest_y])
+
+pbest_obj = f(pbest_x,pbest_y)
+p = pbest_obj.argmax()
+
+
+gbest_x = pbest_x[p]
+gbest_y = pbest_y[p]
+gbest = np.array([gbest_x,gbest_y])
+gbest_obj = f(gbest_x,gbest_y)
+
+#time step
+t = 1
+V_maxx = 2
+V_maxy = 2
+
+def update():
+#velocity, move particles, update obj values
+    global x, y, X, V_x, V_y, current_obj, pbest_x, pbest_y, pbest_obj, gbest_x, gbest_y, gbest_obj 
+    r1 = np.random.rand(n_particles)
+    r2 = np.random.rand(n_particles)
+    
+    
+    V_x = V_x + c1*r1*(pbest_x - x) + c2*r2*(gbest_x - x)
+    V_y = V_y + c1*r1*(pbest_y - y) + c2*r2*(gbest_y - y)
+    
+    V_x = np.clip(V_x,-V_maxx,V_maxx)
+    V_y = np.clip(V_y,-V_maxy,V_maxy)
+    
+    
+    x = x + V_x*t
+    y = y + V_y*t
+    X = np.array([x,y])
+    
+    x = np.clip(x,x_min,x_max)
+    y = np.clip(y,y_min,y_max)
+    
+    current_obj = f(x,y)
+    
+    for i in range(0,n_particles):
+        
+        if current_obj[i] > pbest_obj[i]:
+            pbest_x[i] = x[i]
+            pbest_y[i] = y[i]
+            pbest_obj[i] = current_obj[i]
+        
+        if pbest_obj[i] > gbest_obj:
+            gbest_x = pbest_x[i]
+            gbest_y = pbest_y[i]
+            gbest_obj = pbest_obj[i]
+            
+        i = i + 1
+print(gbest_x, gbest_y, gbest_obj)
+    
+# Set up base figure: The contour map
+fig, ax = plt.subplots(figsize=(8,6))
+fig.set_tight_layout(True)
+img = ax.imshow(z, extent=[0, 1, 0, 1], origin='lower', cmap='viridis', alpha=0.5)
+fig.colorbar(img, ax=ax)
+
+contours = ax.contour(x_i, y_i, z, 5, colors='black', alpha=0.4)
+ax.clabel(contours, inline=True, fontsize=8, fmt="%.0f")
+pbest_plot = ax.scatter(pbest_x, pbest_y, marker='o', color='black', alpha=0.5)
+p_plot = ax.scatter(X[0], X[1], marker='o', color='blue', alpha=0.5)
+p_arrow = ax.quiver(X[0], X[1], V_x, V_y, color='blue', width=0.005, angles='xy', scale_units='xy', scale=1)
+gbest_plot = plt.scatter([gbest_x], [gbest_y], marker='*', s=100, color='black', alpha=0.4)
+ax.set_xlim(0,1)
+ax.set_ylim(0,1)
+ 
+def animate(n):
+    "Steps of PSO: algorithm update and show in plot"
+    title = 'Iteration {:02d}'.format(n)
+    # Update params
+    update()
+    # Set picture
+    ax.set_title(title)
+    pbest_plot.set_offsets(X.T)   
+    p_plot.set_offsets(X.T)
+    p_arrow.set_offsets(X.T)  
+    p_arrow.set_UVC(V_x, V_y)
+    gbest_plot.set_offsets(gbest)
+    
+    return ax, pbest_plot, p_plot, p_arrow, gbest_plot
+ 
+anim = FuncAnimation(fig, animate, frames=list(range(1,60)), interval=500, blit=False, repeat=True)
+anim.save("PSO.gif", dpi=120, writer="imagemagick")
+ 
