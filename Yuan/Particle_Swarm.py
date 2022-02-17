@@ -3,6 +3,8 @@
 
 import random
 import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
 
 class Point:
     def __init__(self, location, l_max, g_max):
