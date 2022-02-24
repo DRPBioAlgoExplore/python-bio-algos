@@ -3,6 +3,8 @@
 
 import random
 import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
 
 class Point:
     def __init__(self, location, l_max, g_max):
@@ -52,7 +54,7 @@ def Find_Global_Max(list_of_points):
 
     return (m, pt)
 
-def Find_Max(current_place):
+def Find_Max(current_place): 
     # Takes a point, and check for the values 0.0000005 away from that point.
     # update maximun values and max place along the way
     # return max value amd max place
@@ -107,8 +109,19 @@ def main():
 
         i = i + 1
 
-    k = print("The Global maximum is " + str(g[0]))
+    return g[0]
 
-    return k
 
-main()
+L = []
+for i in range(1000):
+    A = main()
+    L.append(A)
+    i = i-1
+
+plt.rcParams.update({'figure.figsize':(7,5), 'figure.dpi':100})
+
+# Plot Histogram on x
+x = L
+plt.hist(x, bins=50)
+plt.gca().set(title='Frequency Histogram', ylabel='Frequency');
+
