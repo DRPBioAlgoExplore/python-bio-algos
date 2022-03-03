@@ -66,12 +66,15 @@ def Find_globalmax(points):
     g_max = points[0].g_max
     m = g_max.val
     
-    for p in points:      
+    for p in points:
+        
+       
         if p.l_max.val > m:
             m = p.l_max.val
             g_max = p.l_max
             
- 
+    
+    
     return g_max
 
 
@@ -89,14 +92,20 @@ def main(n):
     points = Generate_init(50)
     
     g = Find_globalmax(points)
-        
+    X = []
+    Y = []
+    for p in points:
+        X.append([])
+        Y.append([])
     for i in range(500):
         
         
         for j in range(50):
             p = points[j]
             l = p.loc
-           
+            X[j-1].append(l[0])
+            Y[j-1].append(l[1])
+            
        
         for p in points:
             p.l_max = Find_lmax(p, A)
@@ -108,5 +117,24 @@ def main(n):
             p.g_max = p2
             p = p.move(ts, A, n, t)
             t = t + 1
+            
+   
       
-    return p
+    return (X, Y)
+
+A = 0.00001
+ts = 0.1
+
+
+for i in range(1):
+    
+    B = main(0.9)
+    x = B[0]
+    y = B[1]
+    for j in range(20):
+        x1 = x[j]
+        y1 = y[j]
+               
+        plt.plot(x1, y1)
+
+    plt.show
