@@ -20,15 +20,18 @@ Some terminology:
         - Number of particles
         - Distribution of random numbers
         - etc.
+    - See Recommended Readings.
 2. **(NEW)** Write a genetic algorithm to find a global maximum.
     - Identify what "organisms" are in this context.
     - Determine what data structure will be useful for encoding this organism's "genome".
     - Pick a method for selecting the surviving population that will make it to the next round of evaluation.
     - Decide how reproduction will occur, using mutations and crossover (optional).
+    - See Recommended Readings.
 
 #### Recommended Reading
 *Biologically Inspired Optimization Methods: An Introduction* (in the Dropbox)
  - Chapter 3, pgs. 40-59 (can skip the 'Biological Background' if somewhat familiar, stop at 'Properties of Genetic algorithms')
+ - Chapter 5, pgs. 120-129 (info for optimization scheme starts in 5.2)
 
 
 <div id='predprey'/>
