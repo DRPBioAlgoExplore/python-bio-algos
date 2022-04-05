@@ -44,9 +44,9 @@ class Jellyfish:
         # Rotate toward the direction of movement
         gap = np.arctan2(self.vel[0], self.vel[1]) - self.heading
         if gap >= np.pi:
-            gap -= np.pi
+            gap -= 2*np.pi
         elif gap <= -np.pi:
-            gap += np.pi
+            gap += 2*np.pi
         self.heading += Jellyfish.turn_lerp * timestep * gap
         if self.heading >= 2*np.pi:
             self.heading -= 2*np.pi
@@ -57,9 +57,10 @@ class Jellyfish:
         app.rotate(self.heading)
         app.noStroke()
         app.fill(0, 0, 255)
-        app.rect(0, 0, 30, 45)
+        app.rect(0, 0, 45, 30)
         app.fill(0, 128, 255)
-        app.rect(0, 10, 10, 10)
+        # x direction will be direction of travel
+        app.rect(10, 0, 10, 10)
         app.popMatrix()
 
 
