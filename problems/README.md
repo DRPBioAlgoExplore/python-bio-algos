@@ -30,7 +30,8 @@ Some terminology:
     - Recommended Reading: *Biologically Inspired Optimization Methods: An Introduction*, Chapter 3, pgs. 40-59 (can skip the 'Biological Background' if somewhat familiar, stop at 'Properties of Genetic algorithms')
 
 <div id='traveling'/>
-## Traveling Salesman Problem
+
+## Traveling Salesman Challenge
 
 The traveling salesman problem (TSP) is a classic problem in computer science.
 The standard formulation of the problems is that there are a number of different cities and the salesman needs to visit all of them.
@@ -49,9 +50,10 @@ It's really easy to generate new problems to solve by placing points at random i
     - What are some good ideas for mutation operations?
     - What about crossover? (this is a lot trickier to figure out)
     - Decide on a scheme for selection.
-    - Check out *A review on genetic algorithms: past, present, and future* ("GAreview.pdf" in Dropbox) for a more in depth background.
+    - Check out, *A review on genetic algorithms: past, present, and future* ("GAreview.pdf" in Dropbox) for a more in depth background.
 
 <div id='predprey'/>
+
 ## Predator Prey Challenge
 
 **(COMING SOON)**
