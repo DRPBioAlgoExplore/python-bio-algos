@@ -46,11 +46,12 @@ It's really easy to generate new problems to solve by placing points at random i
 
 #### Task
 1. Write a genetic algorithm to find good solutions to the traveling salesman problem.
-    - What does a solution look like?
+    - What does a solution look like? How do we evaluate a solution's fitness?
     - What are some good ideas for mutation operations?
     - What about crossover? (this is a lot trickier to figure out)
     - Decide on a scheme for selection.
     - Check out, *A review on genetic algorithms: past, present, and future* ("GAreview.pdf" in Dropbox) for a more in depth background.
+    - For more detail, check out *Evolutionary Dynamics* by Nowak, Chapter 3 in the Dropbox. There's some useful details about how mutation rates affect the convergence to a "peak" in the fitness landscape.
 
 <div id='predprey'/>
 
