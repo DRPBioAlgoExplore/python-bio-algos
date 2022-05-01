@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
 n = 10 # number of cities
-m = 20 # number of population
+m = 15 # number of population
 
 # Generate cities
 City = np.random.rand(n, 2)
@@ -98,13 +98,13 @@ def rw(S):
 def reproduction(P):
     P2 = []
     for i in range(m):
-        j = np.random.randint(0, n)
+        j = np.random.randint(0, m)
         k = np.random.rand()
         
-        if k <= 0.1:
+        if k <= 0.05:
             p2 = mutation1(P[j])
                 
-        if 0.1 < k <= 0.2:
+        if 0.05 < k <= 0.1:
             p2 = mutation2(P[j])
                 
         else:
@@ -123,10 +123,10 @@ def select(P2, S):
     return P3
 
 
-def main():
+def main(iter):
     D = []
     S = []
-    for i in range(500): # number of generations
+    for i in range(iter): # number of generations
         P2 = reproduction(P)        
         
         D2 = distance(P2)
@@ -134,6 +134,8 @@ def main():
         P3 = select(P2, S2)
         d = distance(P3)
         s = score(d)
+        D.append(d)
+        S.append(s)
         
         for p in P3:
             x = []
@@ -145,5 +147,33 @@ def main():
                 
             plt.plot(x, y, alpha = 0.2)
         plt.show()
-    
+    return (D, S)
+
+iter = 100
+
+R = main(iter)
+D = R[0]
+S = R[1]
+
+X = np.arange(iter)
+
+D_std = np.empty(iter)
+D_mean = np.empty(iter)
+S_std = np.empty(iter)
+S_mean = np.empty(iter)
+
+for i in range(iter):
+    D_std[i] = np.std(D[i])
+    D_mean[i] = np.mean(D[i])
+    S_std[i] = np.std(S[i])
+    S_mean[i] = np.mean(S[i])
+
+plt.errorbar(X, D_mean, D_std)
+plt.show()
+
+plt.errorbar(X, S_mean, S_std)
+
+
+plt.show()
+
 main()
