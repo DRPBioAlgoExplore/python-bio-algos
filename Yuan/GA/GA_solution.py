@@ -1,3 +1,4 @@
+
 import math
 import random
 import numpy as np
@@ -5,17 +6,19 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-n = 10 # number of cities
-m = 15 # number of population
+n = 25 # number of cities
+m = 10 # number of population
 
 # Generate cities
+
 City = np.random.rand(n, 2)
 for c in City:
     x1 = c[0]
     y1 = c[1]
            
     plt.plot(x1, y1, 'go--', markersize=5)
-
+    plt.title('Cities')
+    
 plt.show()
 
 
@@ -32,6 +35,8 @@ for p in P:
         y.append(City[p[i]][1])
         
     plt.plot(x, y, alpha = 0.2)
+    plt.title('Initial Population')
+    
 plt.show()
     
     
@@ -74,8 +79,10 @@ def mutation2(p):
     np.random.shuffle(p[i:i+3])
     return p
     
-    
+# 3. displacement
 
+    
+   
 # Selection Methods
 # 1. Roulette Wheel
 def rw(S):
@@ -90,23 +97,35 @@ def rw(S):
             index += 1
             
 # 2. Tournament
-
+def tornament(S):
+    i = np.random.randint(0, m)
+    j = np.random.randint(0, m)
+    a = np.random.uniform(0, S[i] + S[j])
+    if a - S[i] <= 0:
+        return i
+    else:
+        return j
+    
+# Rank
    
 
     
 
-def reproduction(P):
+def reproduction(P, gen, G):
     P2 = []
+    R = 0.01 * (G + 2 * math.sqrt(gen))/(3 * G)
+    #R = (G + 2 * math.sqrt(gen))/(3 * G) # mutation probaility
     for i in range(m):
         j = np.random.randint(0, m)
         k = np.random.rand()
         
-        if k <= 0.05:
+        if k <= R /2 :
             p2 = mutation1(P[j])
                 
-        if 0.05 < k <= 0.1:
+        if R / 2 < k <= R:
             p2 = mutation2(P[j])
-                
+        
+        
         else:
             p2 = P[j]
                 
@@ -118,16 +137,23 @@ def reproduction(P):
 def select(P2, S):
     P3 = P
     for i in range(m):
-        P3[i] = P2[rw(S)]
-        
+        k = np.random.randint(0, 2)
+        if k == 0:
+            #P3[i] = P2[rw(S)]
+            P3[i] = P2[tornament(S)]
+            
+        else:
+            #P3[i] = P2[tornament(S)]
+            P3[i] = P2[rw(S)]
+            
     return P3
 
 
 def main(iter):
     D = []
     S = []
-    for i in range(iter): # number of generations
-        P2 = reproduction(P)        
+    for j in range(iter): # number of generations
+        P2 = reproduction(P, j, iter)        
         
         D2 = distance(P2)
         S2 = score(D2)
@@ -144,12 +170,19 @@ def main(iter):
             for i in range(n):
                 x.append(City[p[i]][0])
                 y.append(City[p[i]][1])
+            
+            if j == (iter - 1):
+                x.append(City[p[0]][0])
+                y.append(City[p[0]][1])    
+                plt.plot(x, y, alpha = 0.1)
+                plt.title('Final iteration')
                 
-            plt.plot(x, y, alpha = 0.2)
-        plt.show()
+    plt.show()
     return (D, S)
+                
+     
 
-iter = 100
+iter = 10000
 
 R = main(iter)
 D = R[0]
@@ -168,12 +201,15 @@ for i in range(iter):
     S_std[i] = np.std(S[i])
     S_mean[i] = np.mean(S[i])
 
-plt.errorbar(X, D_mean, D_std)
+plt.plot(X, D_mean)
+plt.title('Mean Distance vs Iteration')
+plt.xlabel('iteration')
+plt.ylabel('distance')
 plt.show()
 
-plt.errorbar(X, S_mean, S_std)
-
-
-plt.show()
+plt.plot(X, S_mean)
+plt.title('Mean Score vs Iteration')
+plt.xlabel('iteration')
+plt.ylabel("score")
 
 main()
