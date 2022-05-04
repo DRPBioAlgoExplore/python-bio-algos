@@ -1,1 +1,96 @@
 
+import numpy as np
+import matplotlib.pyplot as plt
+
+n=10
+m =20
+
+# Cities
+City = np.random.rand(n,2)
+
+#generate Population
+P = np.mgrid[0:m,0:n][1]
+
+#random shuffle
+P = np.random. shuffle([P])
+
+#distance
+def distance(P):
+    D = []
+    for p in P:
+        d = 0
+        
+        for i in range(n-1):
+            d += np.linalg.norm(City[p[i+1]]-City[p[i]])
+            
+        D.append(d)
+    return np.array(D)
+    
+
+
+#fitness
+def fitness(D):
+    f = []
+    for d in D:
+        fitness = e^(-d)
+        f.append(fitness)
+    f = np.array(f) 
+    return f
+
+def maxfitness(P):
+    for p in P:
+        maxfitness = np.sum(p.f)
+    return maxfitness
+    
+def rouletteSeletion(P):
+    aS = []
+    pick = np.random.randint(0, maxfitness)
+    for f in f:
+        for i in range (len(f)):
+            pick -= p.f[i]
+            i+= 1
+            if pick > 0 :
+                aS.append(p.f[i])
+                aS = np.array(aS)
+    return aS
+    
+def scrambleMutation(aS):
+    bM = np.random.choice(aS,np.random.randint(0, len(aS )-1) , replace = False)
+    lower_limit = np.random.randint(0, len(beforeMutation )-1)
+    upper_limit = np.random.randint(lower_limit+1, len(beforeMutation))
+    scrambled_order = np.random.choice(np.random.shuffle(lower_limit, upper_limit+1), upper_limit + 1 - lower_limit, replace = False)
+    bM[lower_limit: upper_limit+1] = bM[scrambled_order]
+    aM = bM
+    return aM
+
+def crossover(aS):
+    bM = np.random.choice(aS,np.random.randint(0, len(aS )-1) , replace = False)
+    bC = np.random.choice(np.arange(aS),len(bM) , replace = False)
+    random_sequence = np.random.choice(np.arange(bC), len(bM), replace = False)
+    if which_parent == "bC":
+        aC = bC
+        aC[np.sort(random_sequence)] = bM[np.sort(random_sequence)]
+    elif which_parent == "bM":
+        aCr = parent_2
+        aC[np.sort(random_sequence)] = bC[np.sort(random_sequence)]
+        
+    return aC
+
+def reproduction(aS):
+    P2 = []
+    k = np.random.rand()
+    if k <= 0.5:
+        p2 = scrambleMutation(aS)
+    else:
+        p2 = crossover(aS)
+                
+    P2.append(p2)
+    return P2
+
+#new route after iteration
+def select(P2, f):
+    P3 = P
+    for i in range(m):
+        P3[i] = P2
+        
+    return P3
